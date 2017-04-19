@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 /* @var $this yii\web\View */
 
@@ -7,47 +7,63 @@ $this->title = 'My Yii Application';
 <div class="site-index">
 
     <div class="jumbotron">
-        <h1>Congratulations!</h1>
-
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <h1>Admin panel</h1>
+    </div>
+    <div class="row">
+    <div class="col-md-4">
+    <label>Add new category</label>
+    <input type="text" class="form-control" id="category"/>
+    </div>
     </div>
 
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
+    <div class="row">
+    <div class="col-md-4">
+    <label>Add new tags</label>
+    <input type="text" class="form-control" id="category"/>
     </div>
+    </div>
+    <div class="well container" style="margin-top:10px">
+    <div class="row">
+    <div class="col-md-4">
+    <label>Choose Category</label>
+    <select class="form-control">
+    <option>sports</option>
+     <option>sports</option>
+      <option>sports</option>
+    </select>
+    </div>
+    <div class="col-md-4 col-md-offset-2">
+    <label>Choose tags</label>
+    <select class="form-control" >
+    <option>science</option>
+    <option>technology</option>
+    <option>science</option>
+    <option>technology</option>
+    <option>science</option>
+    <option>technology</option>
+    </select>
+    </div>
+    </div>
+    <br>
+    <br>
+    
+   
+    <form>
+    <div class="">
+    <label>News title</label>
+    <input type="text" class="form-control" id="title"/>
+    </div>
+    
+    <div class="" style="margin-top:30px;">
+    <label>Content</label>
+    <textarea rows="6" class="form-control"  cols="100"></textarea>
+    </div>
+    </form>
+    
+    
+    
+    
+    
+    
 </div>
+
