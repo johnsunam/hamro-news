@@ -24,7 +24,7 @@ $this->title = 'My Yii Application';
     </div>
 
     <div class="row">
-    <?php $form = ActiveForm::begin(['id' => 'news-form']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'news-form','options' => ['enctype' => 'multipart/form-data']]); ?>
 
                 <?= $form->field($model, 'category_id')->dropdownList($category,
                ['prompt'=>'category',"id"=>'selectcategory']
@@ -32,7 +32,9 @@ $this->title = 'My Yii Application';
 
         <?= $form->field($model, 'title') ?>
         <?= $form->field($model, 'content')->textarea()?>
+        <?= $form->field($model, 'image')->fileInput() ?>
                 <div class="form-group">
+
                     <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'submit-button']) ?>
                 </div>
 

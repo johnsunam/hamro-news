@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-
+use yii\web\UploadedFile;
 /**
  * This is the model class for table "news".
  *
@@ -32,8 +32,8 @@ class News extends \yii\db\ActiveRecord
     {
         return [
             [['content'], 'string'],
-            [['category_id', 'user_id', 'createdAt'], 'integer'],
-            [['title', 'image'], 'string', 'max' => 255],
+            [['category_id', 'user_id'], 'integer'],
+            [['title'], 'string', 'max' => 255],
         ];
     }
 
@@ -52,5 +52,9 @@ class News extends \yii\db\ActiveRecord
             'createdAt' => 'Created At',
         ];
     }
-    
+public  function upload(){
+        $this->image->saveAs(Yii::getAlias('@frontend') .'/web/images/'.$this->image->baseName . '.' . $this->image->extension);
+        return true;
+}
+
 }

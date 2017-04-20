@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -9,6 +10,8 @@ use common\models\LoginForm;
 use common\models\Category;
 use common\models\Tags;
 use common\models\News;
+use yii\web\UploadedFile;
+
 class NewsController extends Controller{
 
 
@@ -20,8 +23,18 @@ class NewsController extends Controller{
         foreach($categories as $cat){
             $category[$cat->id]=$cat->name;
         }
-        if($model->load(Yii::$app->request->post()) && $model->save()){
-                return $this->redirect('index');
+
+        if($model->load(Yii::$app->request->post())){
+            $model->image=UploadedFile::getInstance($model,'image');
+
+             if($model->upload() && $model->save()){
+
+                 return $this->redirect(Url::toRoute('/news/index'));
+             }
+             else{
+                 return print_r($model->errors);
+             }
+
         }
         else {
             return $this->render('index', ['tags' => $tags, 'category' => $category, 'model' => $model]);
