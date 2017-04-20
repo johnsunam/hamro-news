@@ -18,12 +18,26 @@ AppAsset::register($this);
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Graduate|Handlee|Josefin+Sans|Lobster+Two" rel="stylesheet">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
+
+<style>
+    .navbar li>a{
+        font-size: 15px;
+        font-family: 'Graduate', cursive;
+        color: black;
+    }
+    .navbar-brand{
+        font-family: 'Handlee', cursive;
+        font-size: 30px;
+        color: crimson;
+    }
+</style>
 
 <div class="wrap">
     <?php
@@ -37,7 +51,8 @@ AppAsset::register($this);
         'brandLabel' => 'Hamro Khabar',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
+            'class' => 'navbar navbar-fixed-top thumbnail',
+            'style' => 'background-color: darkturquoise;'
         ],
     ]);
 //    $menuItems = [
