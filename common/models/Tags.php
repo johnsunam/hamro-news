@@ -27,7 +27,7 @@ class Tags extends \yii\db\ActiveRecord
     {
         return [
             [['id'], 'integer'],
-            [['tag'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 255],
         ];
     }
 
@@ -38,7 +38,7 @@ class Tags extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'tag' => 'Tag',
+            'name' => 'Name',
         ];
     }
 }

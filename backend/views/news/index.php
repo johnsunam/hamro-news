@@ -1,6 +1,8 @@
     <?php
 
 use yii\helpers\Url; 
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -15,52 +17,31 @@ $this->title = 'My Yii Application';
     <label>Add new category</label>
     <input type="text" class="form-control" id="category"/>
     </div>
+        <div class="col-md-4">
+            <label>Add new tags</label>
+            <input type="text" class="form-control" id="tags"/>
+        </div>
     </div>
 
     <div class="row">
-    <div class="col-md-4">
-    <label>Add new tags</label>
-    <input type="text" class="form-control" id="tags"/>
+    <?php $form = ActiveForm::begin(['id' => 'news-form','options' => ['enctype' => 'multipart/form-data']]); ?>
+
+                <?= $form->field($model, 'category_id')->dropdownList($category,
+               ['prompt'=>'category',"id"=>'selectcategory']
+           ); ?>
+
+        <?= $form->field($model, 'title') ?>
+        <?= $form->field($model, 'content')->textarea()?>
+        <?= $form->field($model, 'image')->fileInput() ?>
+                <div class="form-group">
+
+                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'submit-button']) ?>
+                </div>
+
+            <?php ActiveForm::end(); ?>
+
     </div>
-    </div>
-    <div class="well container" style="margin-top:10px">
-    <div class="row">
-    <div class="col-md-4">
-    <label>Choose Category</label>
-    <select class="form-control">
-    <option>sports</option>
-     <option>sports</option>
-      <option>sports</option>
-    </select>
-    </div>
-    <div class="col-md-4 col-md-offset-2">
-    <label>Choose tags</label>
-    <select class="form-control" >
-    <option>science</option>
-    <option>technology</option>
-    <option>science</option>
-    <option>technology</option>
-    <option>science</option>
-    <option>technology</option>
-    </select>
-    </div>
-    </div>
-    <br>
-    <br>
-    
-   
-    <form>
-    <div class="">
-    <label>News title</label>
-    <input type="text" class="form-control" id="title"/>
-    </div>
-    
-    <div class="" style="margin-top:30px;">
-    <label>Content</label>
-    <textarea rows="6" class="form-control"  cols="100"></textarea>
-    </div>
-    </form>    
-</div>
+
 
 <?php 
 
@@ -87,6 +68,7 @@ function sendData(types,data){
            data:datas,
            success:function(response){
                console.log(response);
+               $(`#select${types}`).append("<option value="+response.id+">"+response.name+"</option>");
                $(`#${types}`).val("");
            }
        });
