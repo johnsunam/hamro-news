@@ -6,7 +6,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-
+use yii\helpers\Url;
 /**
  * Site controller
  */
@@ -29,7 +29,7 @@ class SiteController extends Controller
                         'actions' => ['logout', 'index'],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
+                    ],  
                 ],
             ],
             'verbs' => [
@@ -60,7 +60,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->redirect(Url::toRoute(['/news']));
     }
 
     /**
@@ -76,7 +76,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(Url::toRoute(['/news']));
         } else {
             return $this->render('login', [
                 'model' => $model,

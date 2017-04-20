@@ -1,5 +1,6 @@
     <?php
 
+use yii\helpers\Url; 
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -19,7 +20,7 @@ $this->title = 'My Yii Application';
     <div class="row">
     <div class="col-md-4">
     <label>Add new tags</label>
-    <input type="text" class="form-control" id="category"/>
+    <input type="text" class="form-control" id="tags"/>
     </div>
     </div>
     <div class="well container" style="margin-top:10px">
@@ -58,12 +59,37 @@ $this->title = 'My Yii Application';
     <label>Content</label>
     <textarea rows="6" class="form-control"  cols="100"></textarea>
     </div>
-    </form>
-    
-    
-    
-    
-    
-    
+    </form>    
 </div>
 
+<?php 
+
+$this->registerJs('$("#category").on("keyup",function(e){
+    if(e.keyCode===13){
+        sendData("category",e.target.value);
+    }
+
+});
+
+$("#tags").on("keyup",function(e){
+
+    if(e.keyCode===13){
+      sendData("tags",e.target.value);
+    }
+});
+
+function sendData(types,data){
+    var datas={types:types,data:data};
+    console.log(datas);
+     var url = 
+     $.post({
+           url:"' . Url::toRoute('news/ajax') . '",
+           data:datas,
+           success:function(response){
+               console.log(response);
+               $(`#${types}`).val("");
+           }
+       });
+}');
+
+ ?>
