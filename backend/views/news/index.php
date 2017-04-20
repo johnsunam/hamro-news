@@ -1,6 +1,8 @@
     <?php
 
 use yii\helpers\Url; 
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 /* @var $this yii\web\View */
 
 $this->title = 'My Yii Application';
@@ -15,55 +17,29 @@ $this->title = 'My Yii Application';
     <label>Add new category</label>
     <input type="text" class="form-control" id="category"/>
     </div>
+        <div class="col-md-4">
+            <label>Add new tags</label>
+            <input type="text" class="form-control" id="tags"/>
+        </div>
     </div>
 
     <div class="row">
-    <div class="col-md-4">
-    <label>Add new tags</label>
-    <input type="text" class="form-control" id="tags"/>
+    <?php $form = ActiveForm::begin(['id' => 'news-form']); ?>
+
+                <?= $form->field($model, 'category_id')->dropdownList($category,
+               ['prompt'=>'category',"id"=>'selectcategory']
+           ); ?>
+
+        <?= $form->field($model, 'title') ?>
+        <?= $form->field($model, 'content')->textarea()?>
+                <div class="form-group">
+                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'submit-button']) ?>
+                </div>
+
+            <?php ActiveForm::end(); ?>
+
     </div>
-    </div>
-    <div class="well container" style="margin-top:10px">
-    <div class="row">
-    <div class="col-md-4">
-    <label>Choose Category</label>
-    <select id="selectcategory" class="form-control">
-    <?php
-    foreach($category as $cat){
-    ?>
-    <option value="<?= $cat->id ?>"><?= $cat->name ?></option>
-    <?php } ?>
-    
-   
-    </select>
-    </div>
-    <div class="col-md-4 col-md-offset-2">
-    <label>Choose tags</label>
-    <select id="selecttags" class="form-control" >
-    <?php
-    foreach($tags as $tag){
-    ?>
-    <option value="<?= $tag->id ?>"><?= $tag->name ?></option>
-    <?php } ?>
-    </select>
-    </div>
-    </div>
-    <br>
-    <br>
-    
-   
-    <form>
-    <div class="">
-    <label>News title</label>
-    <input type="text" class="form-control" id="title"/>
-    </div>
-    
-    <div class="" style="margin-top:30px;">
-    <label>Content</label>
-    <textarea rows="6" class="form-control"  cols="100"></textarea>
-    </div>
-    </form>    
-</div>
+
 
 <?php 
 
