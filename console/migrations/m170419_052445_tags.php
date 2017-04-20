@@ -7,7 +7,7 @@ class m170419_052445_tags extends Migration
     public function up()
     {
         $this->createTable('tags',[
-            'id'=>$this->integer(),
+            'id'=>$this->primaryKey(),
             'tag'=>$this->string()
         ]);
     }
