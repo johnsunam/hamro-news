@@ -12,7 +12,9 @@ use common\models\News;
 
 class NewsController extends Controller{
     public function actionIndex(){
-        return $this->render('index');
+        $tags=Tags::find()->all();
+        $category=Category::find()->all();
+        return $this->render('index',['tags'=>$tags,'category'=>$category]);
     }
     public function actionAjax(){
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
@@ -24,7 +26,8 @@ class NewsController extends Controller{
             }
             elseif($data['types']=="tags"){
                 $modal=new Tags();
-                $modal->tag=$data['data'];
+                $modal->name=$data['data'];
+
             }
             if($modal->save()){
                 return $modal['attributes'];

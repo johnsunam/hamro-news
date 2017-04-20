@@ -27,21 +27,24 @@ $this->title = 'My Yii Application';
     <div class="row">
     <div class="col-md-4">
     <label>Choose Category</label>
-    <select class="form-control">
-    <option>sports</option>
-     <option>sports</option>
-      <option>sports</option>
+    <select id="selectcategory" class="form-control">
+    <?php
+    foreach($category as $cat){
+    ?>
+    <option value="<?= $cat->id ?>"><?= $cat->name ?></option>
+    <?php } ?>
+    
+   
     </select>
     </div>
     <div class="col-md-4 col-md-offset-2">
     <label>Choose tags</label>
-    <select class="form-control" >
-    <option>science</option>
-    <option>technology</option>
-    <option>science</option>
-    <option>technology</option>
-    <option>science</option>
-    <option>technology</option>
+    <select id="selecttags" class="form-control" >
+    <?php
+    foreach($tags as $tag){
+    ?>
+    <option value="<?= $tag->id ?>"><?= $tag->name ?></option>
+    <?php } ?>
     </select>
     </div>
     </div>
@@ -87,6 +90,7 @@ function sendData(types,data){
            data:datas,
            success:function(response){
                console.log(response);
+               $(`#select${types}`).append("<option value="+response.id+">"+response.name+"</option>");
                $(`#${types}`).val("");
            }
        });
