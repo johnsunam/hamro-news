@@ -52,9 +52,17 @@ class News extends \yii\db\ActiveRecord
             'createdAt' => 'Created At',
         ];
     }
-public  function upload(){
+
+    public function upload(){
         $this->image->saveAs(Yii::getAlias('@frontend') .'/web/images/'.$this->image->baseName . '.' . $this->image->extension);
         return true;
-}
+    }
+
+    public function getTags()
+    {
+        return $this->hasMany(Tags::className(), ['id' => 'tag_id'])
+            ->viaTable('news_tag', ['news_id' => 'id']);
+    }
+
 
 }
