@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Category;
 use common\models\News;
 use Yii;
 use yii\base\InvalidParamException;
@@ -74,20 +75,27 @@ class SiteController extends Controller
     public function actionIndex()
     {
 //        $frontNews = News::find()->limit(6)->all();
+        $categories = Category::find()->all();
         $frontNews = News::find()->limit(6)->orderBy('createdAt desc')->all();
         return $this->render('index',[
-            'news'=>$frontNews
+            'news'=>$frontNews,
+            'categories' => $categories,
         ]);
     }
 
     public function actionShowNews($id)
     {
-        $recentNews = News::find()->limit(10)->orderBy('createdAt desc')->all();
+        $recentNews = News::find()->limit(6)->orderBy('createdAt desc')->all();
         $news = News::findOne($id);
         return $this->render('show-news',[
             'news'=>$news,
             'recentNews' => $recentNews,
         ]);
+    }
+
+    public function actionNews($c_id)
+    {
+
     }
 
     /**
