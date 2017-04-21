@@ -11,7 +11,7 @@ use common\models\Category;
 use common\models\Tags;
 use common\models\News;
 use yii\web\UploadedFile;
-
+use common\models\NewsTag;
 class NewsController extends Controller{
 
 
@@ -25,10 +25,18 @@ class NewsController extends Controller{
         }
 
         if($model->load(Yii::$app->request->post())){
+           // return print_r(Yii::$app->request->post()['tags']);
             $model->image=UploadedFile::getInstance($model,'image');
-
              if($model->upload() && $model->save()){
+                $id=$model->id;
 
+                $tags=(Yii::$app->request->post()['tags']);
+                foreach ($tags as $tag){
+                    $newsTag=new NewsTag();
+                    $newsTag->news_id=$id;
+                    $newsTag->tag_id=$tag;
+                    $newsTag->save();
+                }
                  return $this->redirect(Url::toRoute('/news/index'));
              }
              else{
