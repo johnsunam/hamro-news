@@ -37,10 +37,23 @@
     </div>
     <div class="col-md-4" style="padding-right: 0px">
         <div class="thumbnail">
+            <h2>Tags</h2>
+            <hr style="margin-bottom: 0px">
+            <p style="font-size: 18px">
+            <?php
+            foreach ($todaysNews[0]->tags as $tag){
+            ?>
+                <a href="<?=\yii\helpers\Url::to(['/site/news-by-tags','t_id'=>$tag->id,'n_id'=>0])?>"><span style="font-size: 15px" class="badge"><?= $tag->name?></span></a>
+            <?php
+            }
+            ?>
+            </p>
+        </div>
+        <div class="thumbnail">
             <h2>Today's News</h2>
             <?php
             foreach ($todaysNews as $newsItem) {
-                ?>
+            ?>
                 <hr>
                 <div class="row">
                     <div class="col-md-4">
@@ -54,7 +67,7 @@
                         </a>
                     </div>
                 </div>
-                <?php
+            <?php
             }
             ?>
 

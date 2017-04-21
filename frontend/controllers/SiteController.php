@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\Category;
 use common\models\News;
+use common\models\Tags;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\db\Query;
@@ -108,6 +109,22 @@ class SiteController extends Controller
         //return print_r($todaysNews);
         return $this->render('news',[
             'todaysNews'=>$todaysNews,
+        ]);
+    }
+
+    public function actionNewsByTags($t_id,$n_id)
+    {
+        $selectedNews = null;
+        if($n_id>0){
+            $selectedNews = News::findOne(['id'=>$n_id]);
+        }
+        $tag = Tags::findOne(['id'=>$t_id]);
+        $newsByTags = $tag->news;
+        return $this->render('news-by-tags',[
+            'newsByTags'=>$newsByTags,
+            'tag'=> $tag->name,
+            't_id'=>$t_id,
+            'selectedNews' => $selectedNews,
         ]);
     }
 
