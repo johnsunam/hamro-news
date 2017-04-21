@@ -49,7 +49,7 @@ $this->title = 'My Yii Application';
                     <ul>
                         <?php foreach ($tags as $tag){ ?>
                             <li>
-                                <input type="checkbox" id=<?= $tag->name ?> name="tags[]" value=<?= $tag->id ?> /><?= $tag->name ?></li>
+                                <input type="checkbox" id=<?= $tag->name ?> name="tags[]" value=<?= $tag->id ?> /><?= $tag->name ?>
                             </li>
                         <?php } ?>
                     </ul>
@@ -63,11 +63,14 @@ $this->title = 'My Yii Application';
 
             <?php ActiveForm::end(); ?>
 
+        <span id="snackbar"></span>
+
     </div>
 
 
 <?php 
 $this->registerCssFile("@web/css/dropdown.css",['depends' => [\yii\bootstrap\BootstrapAsset::className()]]);
+$this->registerCssFile("@web/css/snackbar.css",['depends' => [\yii\bootstrap\BootstrapAsset::className()]]);
 $this->registerJsFile("@web/js/dropdown.js",['depends' => [\yii\web\JqueryAsset::className()]]);
 $this->registerJs('$("#category").on("keyup",function(e){
     if(e.keyCode===13){
@@ -91,8 +94,19 @@ function sendData(types,data){
            url:"' . Url::toRoute('news/ajax') . '",
            data:datas,
            success:function(response){
-               console.log(response);
+               //for snackbar
+               var x = document.getElementById("snackbar");
+               console.log(x);
+                // Add the "show" class to DIV
+                x.className = "show";
+                console.log(data);
+                $("#snackbar").text(`${data} created`);
+                // After 3 seconds, remove the show class from DIV
+                setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
                $(`#select${types}`).append("<option value="+response.id+">"+response.name+"</option>");
+               if(types==="tags"){
+               $(".mutliSelect ul").append(`<li> <input type="checkbox" id=${response.name} name="tag[]" value=${response.id} />${response.name}</li>`);
+               }
                $(`#${types}`).val("");
            }
        });
