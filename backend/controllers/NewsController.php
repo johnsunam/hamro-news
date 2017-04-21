@@ -16,7 +16,11 @@ class NewsController extends Controller{
 
 
     public function actionIndex(){
+        $starTime=date("Y-m-d"). ' 00:00:00';
+        $endTime=date("Y-m-d"). ' 23:59:59';
+        $news=News::find()->Where(['between','createdAt',$starTime,$endTime])->all();
         $tags=Tags::find()->all();
+
         $categories=Category::find()->all();
         $model=new News();
         $category=array();
@@ -45,7 +49,7 @@ class NewsController extends Controller{
 
         }
         else {
-            return $this->render('index', ['tags' => $tags, 'category' => $category, 'model' => $model]);
+            return $this->render('index', ['tags' => $tags, 'category' => $category, 'model' => $model ,'news'=>$news]);
         }
 
     }
@@ -65,8 +69,18 @@ class NewsController extends Controller{
             if($modal->save()){
                 return $modal['attributes'];
             }
-            
+
             ;
         }
+    }
+    public function actionDelete($id){
+        $model=News::findOne($id);
+
+        if($model->delete()){
+            $this->redirect(Url::toRoute('/news/index'));
+        }
+    }
+    public function actionUpdate($id){
+        return print_r($id);
     }
 }

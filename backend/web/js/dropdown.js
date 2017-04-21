@@ -1,4 +1,5 @@
-$(".dropdown dt a").on('click', function() {
+$(".dropdown dt a").on('click', function(e) {
+    e.preventDefault();
     $(".dropdown dd ul").slideToggle('fast');
 });
 
