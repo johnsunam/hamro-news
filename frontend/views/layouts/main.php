@@ -45,7 +45,7 @@ AppAsset::register($this);
     $categories = \common\models\Category::find()->all();
     foreach ($categories as $category)
     {
-        $categories_array[]=['label'=> $category->name,'url'=>['/site/news','c_id'=>$category->id]];
+        $categories_array[]=['label'=> $category->name,'url'=>['/site/news','c_id'=>$category->id,'n_id'=>0]];
     }
     NavBar::begin([
         'brandLabel' => 'Hamro Khabar',

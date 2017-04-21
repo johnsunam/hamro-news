@@ -26,13 +26,31 @@
 <div class="site-index">
     <div class="col-md-8" style="padding-left: 0px">
         <div class="thumbnail">
-            <h2>
-                <?= $todaysNews[0]['title'] ?>
-            </h2>
-            <img style="padding: 10px;" src="<?= \yii\helpers\Url::toRoute('/images/'.$todaysNews[0]['image']) ?>" alt="first">
-            <p>
-                <?= $todaysNews[0]['content'] ?>
-            </p>
+            <?php
+            if($selectedNews) {
+                ?>
+                <h2>
+                    <?= $selectedNews['title'] ?>
+                </h2>
+                <img style="padding: 10px;" src="<?= \yii\helpers\Url::toRoute('/images/' . $selectedNews['image']) ?>"
+                     alt="first">
+                <p>
+                    <?= $selectedNews['content'] ?>
+                </p>
+                <?php
+            }else {
+                ?>
+                <h2>
+                    <?= $todaysNews[0]['title'] ?>
+                </h2>
+                <img style="padding: 10px;" src="<?= \yii\helpers\Url::toRoute('/images/' . $todaysNews[0]['image']) ?>"
+                     alt="first">
+                <p>
+                    <?= $todaysNews[0]['content'] ?>
+                </p>
+                <?php
+            }
+            ?>
         </div>
     </div>
     <div class="col-md-4" style="padding-right: 0px">
@@ -57,12 +75,12 @@
                 <hr>
                 <div class="row">
                     <div class="col-md-4">
-                        <a href="<?= \yii\helpers\Url::to(['/site/show-news','id'=>$newsItem['id']]) ?>">
+                        <a href="<?= \yii\helpers\Url::to(['/site/news','n_id'=>$newsItem['id'],'c_id'=>$c_id]) ?>">
                             <img class="myImageZoom" style="padding-left: 10px" src="<?= \yii\helpers\Url::toRoute('/images/'.$newsItem['image'])?>" alt="...">
                         </a>
                     </div>
                     <div class="col-md-8" style="padding:0px;">
-                        <a style="text-decoration: none !important;" href="<?= \yii\helpers\Url::to(['/site/show-news','id'=>$newsItem['id']]) ?>">
+                        <a style="text-decoration: none !important;" href="<?= \yii\helpers\Url::to(['/site/news','n_id'=>$newsItem['id'],'c_id'=>$c_id]) ?>">
                             <p class="achorText"><?= $newsItem['title']?></p>
                         </a>
                     </div>

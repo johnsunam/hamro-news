@@ -95,8 +95,12 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionNews($c_id)
+    public function actionNews($c_id,$n_id)
     {
+        $selectedNews = null;
+        if($n_id>0){
+            $selectedNews = News::findOne(['id'=>$n_id]);
+        }
         //$todaysNews = News::find()->where(['and',['category_id'=>$c_id],['=', 'DATE(createdAt)', 'CURDATE()']])->limit(6)->orderBy('createdAt desc')->all();
         $todaysNews = News::find()->where(['category_id'=>$c_id])->limit(6)->orderBy('createdAt desc')->all();
 //        $todaysNews = (new Query())
@@ -109,6 +113,8 @@ class SiteController extends Controller
         //return print_r($todaysNews);
         return $this->render('news',[
             'todaysNews'=>$todaysNews,
+            'selectedNews' => $selectedNews,
+            'c_id'=>$c_id,
         ]);
     }
 
