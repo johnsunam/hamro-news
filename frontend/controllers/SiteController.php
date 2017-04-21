@@ -5,6 +5,7 @@ use common\models\Category;
 use common\models\News;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\db\Query;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -95,7 +96,19 @@ class SiteController extends Controller
 
     public function actionNews($c_id)
     {
-
+        //$todaysNews = News::find()->where(['and',['category_id'=>$c_id],['=', 'DATE(createdAt)', 'CURDATE()']])->limit(6)->orderBy('createdAt desc')->all();
+        $todaysNews = News::find()->where(['category_id'=>$c_id])->limit(6)->orderBy('createdAt desc')->all();
+//        $todaysNews = (new Query())
+//            ->select('*')
+//            ->from('news')
+//            ->where('createdAt > curdate() and category_id='.$c_id)
+//            ->limit(6)
+//            ->orderBy('createdAt desc')
+//            ->all();
+        //return print_r($todaysNews);
+        return $this->render('news',[
+            'todaysNews'=>$todaysNews,
+        ]);
     }
 
     /**
