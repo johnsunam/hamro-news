@@ -12,35 +12,54 @@ use common\models\Tags;
 use common\models\News;
 use yii\web\UploadedFile;
 use common\models\NewsTag;
+
 class NewsController extends Controller{
 
-
-    public function actionIndex(){
+    //getting news for today
+    public function news(){
         $starTime=date("Y-m-d"). ' 00:00:00';
         $endTime=date("Y-m-d"). ' 23:59:59';
         $news=News::find()->Where(['between','createdAt',$starTime,$endTime])->all();
-        $tags=Tags::find()->all();
+        return $news;
+    }
 
+    public function getTags($id){
+        $model=News::findOne($id);
+        return $model->tags;
+    }
+
+    public function category(){
         $categories=Category::find()->all();
-        $model=new News();
         $category=array();
         foreach($categories as $cat){
             $category[$cat->id]=$cat->name;
         }
+        return $category;
+    }
 
+    public function saveTags($tags,$id){
+        foreach ($tags as $tag){
+            $newsTag=new NewsTag();
+            $newsTag->news_id=$id;
+            $newsTag->tag_id=$tag;
+            $newsTag->save();
+        }
+    }
+
+    public function actionIndex(){
+
+        $tags=Tags::find()->all();
+        $news=$this->news();
+        $model=new News();
+        $category=$this->category();
         if($model->load(Yii::$app->request->post())){
-           // return print_r(Yii::$app->request->post()['tags']);
+
             $model->image=UploadedFile::getInstance($model,'image');
              if($model->upload() && $model->save()){
                 $id=$model->id;
 
                 $tags=(Yii::$app->request->post()['tags']);
-                foreach ($tags as $tag){
-                    $newsTag=new NewsTag();
-                    $newsTag->news_id=$id;
-                    $newsTag->tag_id=$tag;
-                    $newsTag->save();
-                }
+                 $this->saveTags($tags,$id);
                  return $this->redirect(Url::toRoute('/news/index'));
              }
              else{
@@ -49,7 +68,8 @@ class NewsController extends Controller{
 
         }
         else {
-            return $this->render('index', ['tags' => $tags, 'category' => $category, 'model' => $model ,'news'=>$news]);
+            $newstags=array();
+            return $this->render('index', ['newstags'=>$newstags,'tags' => $tags, 'category' => $category, 'model' => $model ,'news'=>$news]);
         }
 
     }
@@ -75,12 +95,36 @@ class NewsController extends Controller{
     }
     public function actionDelete($id){
         $model=News::findOne($id);
-
         if($model->delete()){
             $this->redirect(Url::toRoute('/news/index'));
         }
     }
+
     public function actionUpdate($id){
-        return print_r($id);
+        $model=News::findOne($id);
+        $tags=Tags::find()->all();
+        $news=$this->news();
+        $category=$this->category();
+        $newstags=$this->newsTags($id);
+        if($model->load(Yii::$app->request->post()) && $model->save()){
+            NewsTag::deleteAll(['news_id'=>$id]);
+            $newtags=(Yii::$app->request->post()['tags']);
+            $this->saveTags($newtags,$id);
+            return $this->redirect(Url::toRoute('/news/index'));
+        }
+        return $this->render('index', ['newstags'=>$newstags,'tags' => $tags, 'category' => $category, 'model' => $model ,'news'=>$news]);
+
+
     }
+    public function newsTags($id){
+        $newsTags=NewsTag::find()->select(['tag_id'])->where(['news_id'=>$id])->all();
+        $tags=array();
+        foreach ($newsTags as $tag){
+            array_push($tags,$tag['tag_id']);
+        }
+        return $tags;
+
+
+    }
+
 }

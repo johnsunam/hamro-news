@@ -62,7 +62,7 @@ $this->title = 'My Yii Application';
 
                 </dl>
                 <div class="form-group">
-                    <?= Html::submitButton('Submit', ['class' => 'btn btn-primary', 'name' => 'submit-button', 'style'=>'width:100px']) ?>
+                    <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary','style'=>'width:100px']) ?>
                 </div>
 
                 <?php ActiveForm::end(); ?>
@@ -75,18 +75,32 @@ $this->title = 'My Yii Application';
         <h3>Todays News Title</h3>
         <ul class="list-group">
         <?php foreach ($news as $n){ ?>
-            <li class="list-group-item"><div class="row"><div class="col-md-9" style="overflow: hidden;text-overflow: ellipsis;"><?= $n->title ?></div>
+
+            <li class="list-group-item"><div class="row"><div class="col-md-9" style="overflow: hidden;text-overflow: ellipsis;">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-4">
+                                <a href="#" class="thumbnail">
+                                    <img src="<?=  '/hamroKhabar/frontend/web/images/' . $n->image ?>"
+                                         alt="...">
+                                </a>
+                            </div>
+                            
+                        </div><?= $n->title ?></div>
                     <div class="col-md-3"><a href=<?=Url::toRoute(['/news/delete','id'=>$n->id]) ?> class="badge" style="color:white;">
                             <i class="glyphicon glyphicon-trash pull-right"></i>
-                        </a><a href=<?=Url::toRoute(['/news/update','id'=>$n->id]) ?> class="badge" style="color:white;">
+                        </a><a href=<?=Url::toRoute(['/news/update','id'=>$n->id]) ?> class="badge" style="color:white;" onclick="chooseContent(<?php $news ?>);">
                             <i class="glyphicon glyphicon-pencil pull-right"></i>
                         </a></div></div>
-
-
+                <h4>Tags:</h4>
+            <p style="margin-top: 20px">
+                    <?php foreach ($this->context->getTags($n->id) as $tag){ ?>
+                        <span class="badge"><?= $tag->name ?></span>
+                <?php } ?>
+            </p>
             </li>
 
-
         <?php } ?>
+
         </ul>
     </div>
 </div>
@@ -112,7 +126,12 @@ $("#tags").on("keyup",function(e){
       sendData("tags",e.target.value);
     }
 });
-
+  
+  var newsTags= '.\yii\helpers\Json::htmlEncode($newstags).';
+  newsTags.forEach((item,index)=>{
+ $(`input[value=${item}]`).prop("checked",true) ;
+  
+  })
 function sendData(types,data){
     var datas={types:types,data:data};
     console.log(datas);
