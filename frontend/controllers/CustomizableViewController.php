@@ -10,4 +10,5 @@ class CustomizableViewController extends Controller
     {
         return $this->render('_main');
     }
+
 }

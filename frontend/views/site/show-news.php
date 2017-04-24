@@ -36,7 +36,7 @@
         </div>
         <div class="thumbnail">
             <h2>Comments</h2>
-            <div class="fb-comments" data-href="<?='http://localhost'.\yii\helpers\Url::to(['/site/show-news','id'=>$id])?>" data-numposts="5"></div>
+            <div data-width="100%" class="fb-comments" data-href="<?=\yii\helpers\Url::to(['/site/show-news','id'=>$id],true)?>" data-numposts="5"></div>
         </div>
     </div>
     <div class="col-md-4" style="padding-right: 0px">
@@ -79,16 +79,4 @@
     </div>
 </div>
 
-<?php
-$script = <<<JS
-(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=1004022106400296";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
 
-JS;
-$this->registerJS($script)
-?>
