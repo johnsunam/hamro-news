@@ -1,10 +1,11 @@
 <?php
 /* @var $this yii\web\View */
 ?>
-<h1>ui-table/index</h1>
+
 
 <div class="row">
-    <div class="target col-md-6">
+    <div class="target col-md-6 well col-md-offset-3" style="margin-top: 100px">
+        <h3 class="col-md-offset-4">Change frontend UI</h3>
         <label>Source</label>
         <select class="form-control" id="source">
             <option value="">choose source</option>
@@ -12,19 +13,22 @@
             <option value=<?= $d->id ?> ><?= $d->div ?></option>
             <?php } ?>
         </select>
-    </div>
-    <div class="target col-md-6">
         <label>Target</label>
         <select class="form-control" id="target">
             <option value="">choose target</option>
 
         </select>
+        <hr>
+        <button class="btn btn-primary" id="apply">Apply</button>
     </div>
-    <br>
-    <br>
-    <button class="btn btn-primary" id="apply">Apply</button>
+    <div class="target col-md-6">
+
+    </div>
+    <span id="snackbar">Change Applied</span>
+
 </div>
 <?php
+$this->registerCssFile("@web/css/snackbar.css",['depends' => [\yii\bootstrap\BootstrapAsset::className()]]);
 
 $this->registerJs('
 $("#source").on("change",function(e){
@@ -73,12 +77,10 @@ var target=alldiv.find((obj)=>{
 return obj.id==t;
 });
 
-
  var sourcePos=source.position;
  var targetPos=target.position;
  var sourcePar=source.parent;
  var targetPar=target.parent;
- 
  source.position=targetPos;
  target.position=sourcePos;
  source.parent=targetPar;
@@ -88,7 +90,14 @@ return obj.id==t;
     url:"'. \yii\helpers\Url::toRoute('ui-table/update').'",
     data:{source:source,target:target},
     success:function(response){
+    $("#source").val("");
+    $("#target").val("");
     console.log(response);
+    var x = document.getElementById("snackbar");
+               console.log(x);
+                // Add the "show" class to DIV
+                x.className = "show";
+   setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
     }
  });
 
