@@ -28,7 +28,7 @@ AppAsset::register($this);
 
 <style>
     .navbar li>a{
-        font-size: 15px;
+        font-size: 12px;
         font-family: 'Graduate', cursive;
         color: black;
     }
@@ -47,6 +47,10 @@ AppAsset::register($this);
     {
         $categories_array[]=['label'=> $category->name,'url'=>['/site/news','c_id'=>$category->id,'n_id'=>0]];
     }
+    $loginItems = [
+        ['label'=> 'Login By facebook','url'=>['/site/auth','authclient'=>'facebook']]
+    ];
+    $menuItems = array_merge($categories_array,$loginItems);
     NavBar::begin([
         'brandLabel' => 'Hamro Khabar',
         'brandUrl' => Yii::$app->homeUrl,
@@ -75,7 +79,7 @@ AppAsset::register($this);
 //    }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $categories_array,
+        'items' => $menuItems,
     ]);
     NavBar::end();
     ?>

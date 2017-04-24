@@ -66,7 +66,18 @@ class SiteController extends Controller
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'oAuthSuccess'],
+            ],
         ];
+    }
+
+    public function oAuthSuccess($client) {
+        // get user data from client
+        $userAttributes = $client->getUserAttributes();
+
+        // do some thing with user data. for example with $userAttributes['email']
     }
 
     /**
@@ -92,6 +103,7 @@ class SiteController extends Controller
         return $this->render('show-news',[
             'news'=>$news,
             'recentNews' => $recentNews,
+            'id' => $id
         ]);
     }
 
