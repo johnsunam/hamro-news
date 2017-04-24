@@ -9,4 +9,5 @@ class CustomizableViewController extends Controller
     public function actionIndex()
     {
         return $this->render('_main');
+    }
 }
