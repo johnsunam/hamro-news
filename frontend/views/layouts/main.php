@@ -51,7 +51,7 @@ AppAsset::register($this);
         'brandLabel' => 'Hamro Khabar',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-fixed-top thumbnail',
+            'class' => 'navbar navbar-fixed-top',
             'style' => 'background-color: darkturquoise;'
         ],
     ]);
