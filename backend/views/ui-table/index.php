@@ -19,7 +19,14 @@
 
         </select>
         <hr>
+
         <button class="btn btn-primary" id="apply">Apply</button>
+        <hr>
+        <h3>Choose class to hide</h3>
+        <?php foreach ($div as $item) { ?>
+            <label><input type="checkbox" id="hideDiv" name="hideDiv[]" value=<?=$item->id ?> <?=$item->visibility=="false"?"checked":""?>><?= $item->div ?></label>
+        <?php } ?>
+        <hr>
     </div>
     <div class="target col-md-6">
 
@@ -31,6 +38,18 @@
 $this->registerCssFile("@web/css/snackbar.css",['depends' => [\yii\bootstrap\BootstrapAsset::className()]]);
 
 $this->registerJs('
+$(`input[name="hideDiv[]"]`).on("click",(e)=>{
+
+console.log(e.target.value);
+    $.post({
+    url:"'. \yii\helpers\Url::toRoute('ui-table/visibility').'",
+    data:{id:e.target.value},
+    success:function(response){
+    console.log(response)
+    }
+    })
+
+});
 $("#source").on("change",function(e){
 $("#target")
 .find("option")
@@ -63,9 +82,16 @@ sourcediv.forEach((single)=>{
 
 
 })
+$()
 $("#apply").on("click",function(e){
 var s=$("#source").val();
 var t=$("#target").val();
+var arr=[];
+$.each($(`input[name="hideDiv[]"]:checked`),(obj,item)=>{
+    arr.push(item.value);
+})
+ 
+ 
 
 var alldiv='.\yii\helpers\Json::htmlEncode($div).';
 
@@ -76,7 +102,7 @@ return obj.id==s;
 var target=alldiv.find((obj)=>{
 return obj.id==t;
 });
-
+if(source && target){
  var sourcePos=source.position;
  var targetPos=target.position;
  var sourcePar=source.parent;
@@ -85,10 +111,12 @@ return obj.id==t;
  target.position=sourcePos;
  source.parent=targetPar;
  target.parent=sourcePar;
+
+}
  
  $.post({
     url:"'. \yii\helpers\Url::toRoute('ui-table/update').'",
-    data:{source:source,target:target},
+    data:{source:source,target:target,hide:arr},
     success:function(response){
     $("#source").val("");
     $("#target").val("");
