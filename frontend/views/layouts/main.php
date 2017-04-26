@@ -32,6 +32,11 @@ AppAsset::register($this);
         font-family: 'Graduate', cursive;
         color: black;
     }
+    .navbar button{
+        font-size: 12px;
+        font-family: 'Graduate', cursive;
+        color: black;
+    }
     .navbar-brand{
         font-family: 'Handlee', cursive;
         font-size: 30px;
@@ -47,10 +52,9 @@ AppAsset::register($this);
     {
         $categories_array[]=['label'=> $category->name,'url'=>['/site/news','c_id'=>$category->id,'n_id'=>0]];
     }
-    $loginItems = [
-        ['label'=> 'Login By facebook','url'=>['/site/auth','authclient'=>'facebook']]
-    ];
-    $menuItems = array_merge($categories_array,$loginItems);
+//    $loginItems = [
+//        ['label'=> 'Login By facebook','url'=>['/site/auth','authclient'=>'facebook']]
+//    ];
     NavBar::begin([
         'brandLabel' => 'Hamro Khabar',
         'brandUrl' => Yii::$app->homeUrl,
@@ -64,22 +68,23 @@ AppAsset::register($this);
 //        //['label' => 'About', 'url' => ['/site/about']],
 //        //['label' => 'Contact', 'url' => ['/site/contact']],
 //    ];
-//    if (Yii::$app->user->isGuest) {
-//        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-//        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-//    } else {
-//        $menuItems[] = '<li>'
-//            . Html::beginForm(['/site/logout'], 'post')
-//            . Html::submitButton(
-//                'Logout (' . Yii::$app->user->identity->username . ')',
-//                ['class' => 'btn btn-link logout']
-//            )
-//            . Html::endForm()
-//            . '</li>';
-//    }
+    if (Yii::$app->user->isGuest) {
+        $menuItems = [['label' => 'Signup', 'url' => ['/site/signup']]];
+        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+    } else {
+        $menuItems[] = '<li>'
+            . Html::beginForm(['/site/logout'], 'post')
+            . Html::submitButton(
+                'Logout (' . Yii::$app->user->identity->username . ')',
+                ['class' => 'btn btn-link logout']
+            )
+            . Html::endForm()
+            . '</li>';
+    }
+    $finalMenuItems = array_merge($categories_array,$menuItems);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
+        'items' => $finalMenuItems,
     ]);
     NavBar::end();
     ?>
